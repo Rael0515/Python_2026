@@ -30,7 +30,7 @@ class Character:
         self.weaponDam = dam
 
     def GetHealItem(self, item_name, num, power): #no return
-        is_get = 0
+        is_get = 0, totalcount = 0
         for item in self.healItem:
             if item[0] == item_name:
                 item[1]+=num
@@ -45,8 +45,9 @@ class Character:
         if is_get == 1:
             print(item_name,"을", num,"개 획득했다!")
             print("현재 ", item_name,"은(는) ", totalcount,"개 입니다.")
+
     def GetAttackItem(self, item_name, num, power): #no return
-        is_get = 0
+        is_get = 0, totalcount = 0
         for item in self.attackItem:
             if item[0] == item_name:
                 item[1]+=num
@@ -67,10 +68,11 @@ class Character:
         for item in self.healItem:
             if item[0] == item_name:
                 item[1] -= 1
+                power = item[2]
                 self.hp += power
                 if self.hp > self.maxhp:
                     self.hp = self.maxhp
-                power = item[2]
+                
                 print(item[0], "을 사용했다!")
                 print(self.name, "은(는) ",item[2],"만큼 회복했다!")
 
@@ -99,13 +101,13 @@ class Character:
 
 ##실제 동작들
 
-    def GetAttacted(self, dam): #return 0 || return self.hp, total 
-        total = self.defen - dam
+    def GetAttacked(self, dam): #return 0 || return self.hp, total 
+        total = dam - self.defen
         if total <= 0:
             return 0
         self.hp -= total
         return self.hp, total
     
-    def DoWAttact(self): #return total
+    def DoWAttack(self): #return total
         total = self.atk + self.weaponDam
         return total
