@@ -1,3 +1,5 @@
+from Item import getAttackItemList, getHealItemList
+
 class Character:
     def __init__(self, name): #캐릭 생성 기본값
         self.name = name
@@ -11,8 +13,8 @@ class Character:
         self.money = 1000
         self.weaponName = "청동검"
         self.weaponDam = 5
-        self.attackItem = [] #[[name, count, power]]
-        self.healItem = [] #[[name, count, power]]
+        self.attackItem = [] #[[name, description, count, power]]
+        self.healItem = [] #[[name, description, count, power]]
 
 ##내부 동작들
     def GetEXP(self, exp): #no return
@@ -29,8 +31,9 @@ class Character:
         self.weaponName = name
         self.weaponDam = dam
 
-    def GetHealItem(self, item_name, num, power): #no return
-        is_get = 0, totalcount = 0
+    def GetHealItem(self, item_name, description, num, power): #no return ##수정요함!
+        is_get = 0
+        totalcount = 0
         for item in self.healItem:
             if item[0] == item_name:
                 item[1]+=num
@@ -39,15 +42,16 @@ class Character:
                 break
 
         if is_get == 0:
-            self.healItem.append([item_name, num, power])
+            self.healItem.append([item_name, description, num, power])
             is_get = 1
 
         if is_get == 1:
             print(item_name,"을", num,"개 획득했다!")
             print("현재 ", item_name,"은(는) ", totalcount,"개 입니다.")
 
-    def GetAttackItem(self, item_name, num, power): #no return
-        is_get = 0, totalcount = 0
+    def GetAttackItem(self, item_name, description, num, power): #no return
+        is_get = 0
+        totalcount = 0
         for item in self.attackItem:
             if item[0] == item_name:
                 item[1]+=num
@@ -56,7 +60,7 @@ class Character:
                 break
 
         if is_get == 0:
-            self.attackItem.append([item_name, num, power])
+            self.attackItem.append([item_name, description, num, power])
             is_get = 1
 
         if is_get == 1:

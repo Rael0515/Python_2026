@@ -3,4 +3,9 @@ def EnemyEncounter():
     return 0
 
 def CampEncounter():
-    return 0
+    print("캠프를 발견했다! 여기서 조금 쉬었다 가자!")
+
+
+
+def ShopEncounter():
+    print("여기는 상점이란다. 무엇을 사러 왔니?")
