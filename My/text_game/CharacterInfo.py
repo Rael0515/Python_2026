@@ -103,15 +103,81 @@ class Character:
                 return power
         return -1
 
+##기초치 획득
+    def GetRecover(self, recover = 0, percent = 0): #return int(self.hp)
+        if recover == 0:
+            recover = int(self.maxhp * percent / 100)
+        self.hp += recover
+        if self.hp > self.maxhp:
+            self.hp = self.maxhp
+        return int(self.hp)
+    
+    def GetMoney(self, earn = 0, percent= 0):#return int(self.money)
+        if earn == 0:
+            earn = int(self.money*(percent/100))
+        self.money+=earn
+        return int(self.money)
+    
 ##실제 동작들
 
-    def GetAttacked(self, dam): #return 0 || return self.hp, total 
+    def GetAttacked(self, dam): #return 0 (no damage) || return self.hp, total (get damage)
         total = dam - self.defen
         if total <= 0:
             return 0
         self.hp -= total
+        if self.hp <= 0:
+            self.hp = 0
+        while self.hp == 0:
+            if self.ShowHealItem() == -1:
+                self.Died(self)
+            else:
+                num = int(input(">> "))
+                if num > 0 and num < len(self.healItem)+1:
+                    self.UseHealItem()
+                else:
+                    print("존재하지 않는 아이템입니다.")
+                    print("다시 입력해주세요.")
         return self.hp, total
     
     def DoWAttack(self): #return total
         total = self.atk + self.weaponDam
         return total
+    
+    def Died(self): #exit(0)
+        print("캐릭터의 체력이 0이 되었습니다.")
+        print("게임을 종료합니다.")
+        exit(0)
+
+##아이템 리스트 확인
+
+    def ShowHealItem(self): #return -1(err) || return 0(normal)
+        if not self.healItem:
+            print("회복 아이템이 없습니다.")
+            return -1
+        else:
+            index = 1
+            print("---------------------------------------------------")
+            for item in self.healItem: #[[name, description, count, power]]
+                print(index, ". ", item[0])
+                print("설명: ", item[1])
+                print("회복량: ", item[3])
+                print("아이탬 개수: ", item[2])    
+                index+=1
+                print("---------------------------------------------------")
+        return 0
+    
+    def ShowAttackItem(self): #return -1(err) || return 0(normal)
+        if not self.attackItem:
+            print("공격 아이템이 없습니다.")
+            return -1
+        else:
+            index = 1
+            print("---------------------------------------------------")
+            for item in self.attackItem: #[[name, description, count, power]]
+                print(index, ". ", item[0])
+                print("설명: ", item[1])
+                print("데미지: ", item[3])
+                print("아이탬 개수: ", item[2])    
+                index+=1
+                print("---------------------------------------------------")
+        return 0
