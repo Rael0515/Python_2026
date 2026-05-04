@@ -1,5 +1,4 @@
 from Item import getAttackItemList, getHealItemList
-
 class Character:
     def __init__(self, name): #캐릭 생성 기본값
         self.name = name
@@ -10,6 +9,7 @@ class Character:
         self.atk = 10
         self.defen = 5
 
+        self.floor = 1
         self.money = 1000
         self.weaponName = "청동검"
         self.weaponDam = 5
@@ -144,8 +144,10 @@ class Character:
         return total
     
     def Died(self): #exit(0)
+        from FinalScore import FinalScore
         print("캐릭터의 체력이 0이 되었습니다.")
         print("게임을 종료합니다.")
+        print("최종점수: ", FinalScore(self))
         exit(0)
 
 ##아이템 리스트 확인

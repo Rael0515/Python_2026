@@ -1,5 +1,3 @@
-from CharacterInfo import Character
-
 def getAttackItemList(): #return (list)Item 
     #[[name, Description, damage, price],]
     Item = [["수류탄","던지기 전에는 손에서 꼭 쥐고 놓지 마렴!", 90, 90], 
@@ -44,7 +42,7 @@ def ShowHealItemList(): #no return
 def BuyAttackItem(player, num): #return 1 (err, again) || return 0 (stop)
     num-=1
     Item = getAttackItemList()
-    if num <= 0 or num > Item.len():
+    if num <= 0 or num > len(Item):
         print("해당 번호의 아이템은 판매하지 않는단다. 다시 확인해주렴")
         return 1
     selectItem = Item[num]
@@ -52,7 +50,30 @@ def BuyAttackItem(player, num): #return 1 (err, again) || return 0 (stop)
         print("저런! 돈이 부족한 것 같구나!")
         return 1
     player.money -= selectItem[3] ##돈 차감
-    player.GetHealItem(player, selectItem[0], selectItem[1], 1, selectItem[2]) #(self, item_name, description, num, power)
+    player.GetAttackItem(selectItem[0], selectItem[1], 1, selectItem[2]) #(self, item_name, description, num, power)
+    print("구매해줘서 고마워!")
+    print("또 살 거 있니?")
+    while True:
+        check = int(input("(네: 1, 아니요: 0)>> "))
+        if check == 1:
+            return 1
+        elif check == 0:
+            return 0
+        else:
+            print("System: 올바르지 않은 입력입니다. 다시 입력해 주세요.")
+
+def BuyHealItem(player, num): #return 1 (err, again) || return 0 (stop)
+    num-=1
+    Item = getHealItemList()
+    if num <= 0 or num > len(Item):
+        print("해당 번호의 아이템은 판매하지 않는단다. 다시 확인해주렴")
+        return 1
+    selectItem = Item[num]
+    if player.money < selectItem[3]:
+        print("저런! 돈이 부족한 것 같구나!")
+        return 1
+    player.money -= selectItem[3] ##돈 차감
+    player.GetHealItem(selectItem[0], selectItem[1], 1, selectItem[2]) #(self, item_name, description, num, power)
     print("구매해줘서 고마워!")
     print("또 살 거 있니?")
     while True:

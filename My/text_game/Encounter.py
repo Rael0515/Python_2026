@@ -1,29 +1,8 @@
 from Item import *
 from Enemy import *
 from Shop import *
-from CharacterInfo import Character
 from random import randint
-
-
-def EnemyEncounter(mode, floor):
-    print("적이 나왔다!")
-    return 0
-
-def CampEncounter(player): #return 0 (normal)
-    print("캠프를 발견했다! 여기서 조금 쉬었다 가자!")
-    CampRecoverEncounter(player)
-    while True:
-        print("상점을 방문할까? (Yes: y No: n)")
-        yorn = input(">> ")
-        if yorn == 'Y' or yorn == 'y':
-            Shop()
-            return 0
-        elif yorn =='N' or yorn =='n':
-            print("다음 층으로 나아가기로 했다.")
-            return 0
-        else:
-            print("y 혹은 n을 입력해주세요.")
-
+from Move import PlayerMove, EnemyMove
 
 def CampRecoverEncounter(player):
     while True:
@@ -55,6 +34,53 @@ def CampRecoverEncounter(player):
                 print("HP를 모두 회복한다!")
                 print("현재 HP: ", player.GetRecover(percent = 100))
             break
+
+def FightEnemy(player, enemy): #return 0
+    print(player.name,"은 ", enemy.name, "을 만났다!")
+    turn = 1
+    while enemy.hp != 0:
+        turn = PlayerMove(player, enemy, turn)
+        EnemyMove(player, enemy)
+    player.money, player.exp = enemy.Killed()
+    return 0
+    
+
+def EnemyEncounter(mode, player, enemynum): #Enemynum 1: normal , 2: Middle, 3: Final #return 0 (normal)|| return -1(err)|| return 1 (ending)
+    print("적이 나왔다!")
+    if enemynum == 1:
+        enemy_instance = NormalEnemy()
+    elif enemynum == 2:
+        enemy_instance = MiddleBoss()
+    elif enemynum == 3:
+        enemy_instance = FinalBoss()
+    else:
+        print("System: 잘못된 접근입니다.")
+        return -1
+    FightEnemy(player, enemy_instance)
+    
+    if mode != 3 and enemynum == 3:
+        return 1
+    
+    player.floor += 1
+    return 0
+
+def CampEncounter(player): #return 0 (normal)
+    print("캠프를 발견했다! 여기서 조금 쉬었다 가자!")
+    CampRecoverEncounter(player)
+    while True:
+        print("상점을 방문할까? (Yes: y No: n)")
+        yorn = input(">> ")
+        if yorn == 'Y' or yorn == 'y':
+            Shop(player)
+            return 0
+        elif yorn =='N' or yorn =='n':
+            print("다음 층으로 나아가기로 했다.")
+            return 0
+        else:
+            print("y 혹은 n을 입력해주세요.")
+
+
+
 
 
 

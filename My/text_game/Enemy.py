@@ -17,8 +17,8 @@ class Enemy:
         print(self.name, "은(는) 공격했다!")
         return self.atk
     
-    # def DoNothing(self):
-    #     print(self.name, "은 아무것도 안한다!")
+    def DoNothing(self):
+        print(self.name, "은 아무것도 안한다!")
 
     def GetAttacked(self, dam): #return 0, 0 || return self.Killed() (when killed)
         total = dam - self.defen
@@ -33,17 +33,17 @@ class Enemy:
         return 0, 0
         
 ##처치
-    def Killed(self, money, exp): #return money, exp
+    def Killed(self): #return money, exp
         print(self.name, "은(는) 쓰러졌다!")
-        return money, exp
+        return self.money, self.exp
 
 #자식클래스
-class normalEnemy(Enemy): #일반몬스터
+class NormalEnemy(Enemy): #일반몬스터
     def __init__(self):
         super().__init__("일반몬스터", 100, 10, 10, 100, 300) #name, (max, now)hp, atk, defense, money, exp
-class middleBoss(Enemy): #중간보스
+class MiddleBoss(Enemy): #중간보스
     def __init__(self):
         super().__init__("중간보스", 200, 20, 15, 500, 1000) #name, (max, now)hp, atk, defense, money, exp
-class finalBoss(Enemy): #최종보스
+class FinalBoss(Enemy): #최종보스
     def __init__(self):
-        super().__init__("최종보스", 300, 30, 20, 1, 1) #name, (max, now)hp, atk, defense, money, exp
+        super().__init__("최종보스", 300, 30, 20, 3000, 3000) #name, (max, now)hp, atk, defense, money, exp

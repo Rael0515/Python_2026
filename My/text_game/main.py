@@ -1,20 +1,19 @@
-from CharacterInfo import Character
 from Intro import Intro
 from MoveMode import *
 from ChoseMode import ChoseMode
 
 def main():
 
-    Intro()
+    num = ChoseMode()
 
-    match ChoseMode():
+    match num:
         case 1:
-            TestMode()
+            score = TestMode(Intro())
         case 2:
-            NormalMode()
+            score = NormalMode(Intro())
         case 3:
-            InfinityMode()
-    
+            score = InfinityMode(Intro())
+    print("최종점수: ", score)
     return 0
   
 

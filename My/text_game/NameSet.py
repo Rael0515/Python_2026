@@ -18,5 +18,5 @@ def MakeName(end):
                 break
             else:
                 print("y혹은 n으로 대답해주세요\n")
-    Character.name = name
-    return name
+    player = Character(name)
+    return player, name
