@@ -21,18 +21,23 @@ class Character:
         print( self.name , "은(는)", exp, "만큼의 경험치를 얻었다!")
         self.exp += exp
         before = self.level
+        beforehp = self.maxhp
+        money = 0
         while (self.exp - 100) >= 0 :
             self.level += 1
             self.maxhp += 50
             self.atk += 10
             self.defen += 5
             self.exp -= 100
-            self.GetMoney(1000)
-        print(self.name, "은",  before, " -> ", self.level, "으로 레벨업 했다!")
-        print("플레이어 Level: ",self.level)
-        print("최대 HP: ", self.maxhp, )
+            money += 1000
+        if before != self.level:
+            print(self.name, "은",  before, " -> ", self.level, "으로 레벨업 했다!")
+            print("플레이어 Level: ",self.level)
+            print("MAX HP: ", beforehp," -> ",self.maxhp)
+            self.GetMoney(money)
         print("플레이어 현재 경험치: ", self.exp)
         #return self.level, self.exp, self.maxhp, self.atk, self.defen
+    
     def GetMoney(self, money):
         self.money += money
         print("플레이어 현재 돈: ", self.money)
@@ -166,8 +171,10 @@ class Character:
     def Died(self): #exit(0)
         from FinalScore import FinalScore
         print(self.name,"의 체력이 0이 되었습니다.")
-        print("게임을 종료합니다.")
+        print("GAME OVER")
         print("최종점수: ", FinalScore(self))
+
+        input("\n게임을 종료하려면 엔터 키를 누르세요...")
         exit(0)
 
 ##아이템 리스트 확인

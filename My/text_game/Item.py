@@ -24,7 +24,7 @@ def ShowAttackItemList(): #no return
         print("가격: ", i[3])
         index+=1
     print("-"*50)
-    print("**종료는 0**")
+    print("0: 종료")
 
 def ShowHealItemList(): #no return
     Item = getHealItemList()
@@ -37,7 +37,7 @@ def ShowHealItemList(): #no return
         print("가격: ", i[3])
         index+=1
     print("-"*50)
-    print("**종료는 0**")
+    print("0: 종료")
     
 
 def BuyAttackItem(player, num): #return 1 (err, again) || return 0 (stop)
@@ -54,8 +54,9 @@ def BuyAttackItem(player, num): #return 1 (err, again) || return 0 (stop)
     player.GetAttackItem(selectItem[0], selectItem[1], 1, selectItem[2]) #(self, item_name, description, num, power)
     print("구매해줘서 고마워!")
     print("또 살 거 있니?")
+    print("(네: 1, 아니요: 0)")
     while True:
-        check = int(input("(네: 1, 아니요: 0)>> "))
+        check = int(input(">> "))
         if check == 1:
             return 1
         elif check == 0:
@@ -77,8 +78,9 @@ def BuyHealItem(player, num): #return 1 (err, again) || return 0 (stop)
     player.GetHealItem(selectItem[0], selectItem[1], 1, selectItem[2]) #(self, item_name, description, num, power)
     print("구매해줘서 고마워!")
     print("또 살 거 있니?")
+    print("(네: 1, 아니요: 0)")
     while True:
-        check = int(input("(네: 1, 아니요: 0)>> "))
+        check = int(input(">> "))
         if check == 1:
             return 1
         elif check == 0:

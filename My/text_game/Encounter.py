@@ -9,6 +9,7 @@ def CampRecoverEncounter(player):
         print("1. 많이 회복: 최대 HP의 60%를 회복한다.")
         print("2. 적게 회복: 최대 HP의 10%를 회복하고, 돈을 50% 늘린다.")
         print("3. 주사위를 굴리고 굴린만큼 회복한다: (1~5: 주사위수 * 10% 회복, 6: full-hp회복)")
+        print(player.name, "의 HP: ",player.hp, "/", player.maxhp, "|", player.name, "의 소지금: ", player.money)
         try:
             num = int(input(">> "))
         except ValueError:
@@ -47,8 +48,9 @@ def FightEnemy(player, enemy): #return 0
         EnemyMove(player, enemy)
     money, exp = enemy.Killed()
     print("-" * 50)
-    player.GetEXP(exp)
+    print(enemy.name, "을(를) 쓰러뜨리고 돈을 ", money,"를 얻었다!")
     player.GetMoney(money)
+    player.GetEXP(exp)
     return 0
     
 
