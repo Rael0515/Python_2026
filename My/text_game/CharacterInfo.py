@@ -92,7 +92,7 @@ class Character:
                 print(self.name,"은(는)",item[0],"을(를) 사용했다!")
                 print(self.name,"은(는)",item[3],"만큼 회복했다!")
 
-                if item[1] <= 0:
+                if item[2] <= 0:
                     self.healItem.remove(item)
                     print("마지막", item[0],"을(를) 사용했다!")
                     return 0
