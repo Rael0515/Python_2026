@@ -7,4 +7,4 @@ def GetNumber(start, end):
         if num >=start and num <=end:
             return num
         else:
-            print(start, " ~ ", end, "사이의 정수를 입력하세요.")
+            print(start, "~", end,"사이의 정수를 입력하세요.")

@@ -1,48 +1,49 @@
 def getAttackItemList(): #return (list)Item 
     #[[name, Description, damage, price],]
-    Item = [["수류탄","던지기 전에는 손에서 꼭 쥐고 놓지 마렴!", 90, 90], 
-            ["화염병","파이어 앤드 저스티스!", 80, 80], 
-            ["방패","최고의 공격은 방어다!", 50, 50], 
-            ["총","대화(물리)", 70, 70]]
+    Item = [["수류탄","던지기 전에는 손에서 꼭 쥐고 놓지 마렴!", 900, 900], 
+            ["화염병","파이어 앤드 저스티스!", 800, 800], 
+            ["방패","최고의 공격은 방어다!", 500, 500], 
+            ["총","대화(물리)", 700, 700]]
     return Item
 
 def getHealItemList(): #return (list)Item 
     #[[name, Description, healingLevel, price],]
-    Item = [["빨간포션","최고급 포션이야!", 1000000, 100], 
-            ["파란포션","약간 애매한 중급 포션이야!", 50, 50], 
-            ["초록포션","저급 포션이지만 가격이 매우 싸단다!", 30, 10]]
+    Item = [["빨간포션","최고급 포션이야!", 1000000, 10000], 
+            ["파란포션","약간 애매한 중급 포션이야!", 500, 1000], 
+            ["초록포션","저급 포션이지만 가격이 매우 싸단다!", 300, 800]]
     return Item
 
 def ShowAttackItemList(): #no return
     Item = getAttackItemList()
     index = 1
     for i in Item:
-        print("---------------------------------------------------")
+        print("-"*50)
         print(index, ". ", i[0])
         print("설명: ", i[1])
         print("데미지: ", i[2])
         print("가격: ", i[3])
         index+=1
-    print("---------------------------------------------------")
+    print("-"*50)
+    print("**종료는 0**")
 
 def ShowHealItemList(): #no return
     Item = getHealItemList()
     index = 1
     for i in Item:
-        print("---------------------------------------------------")
+        print("-"*50)
         print(index, ". ", i[0])
         print("설명: ", i[1])
         print("회복량: ", i[2])
         print("가격: ", i[3])
         index+=1
+    print("-"*50)
     print("**종료는 0**")
-    print("---------------------------------------------------")
     
 
 def BuyAttackItem(player, num): #return 1 (err, again) || return 0 (stop)
     num-=1
     Item = getAttackItemList()
-    if num <= 0 or num > len(Item):
+    if num < 0 or num > len(Item):
         print("해당 번호의 아이템은 판매하지 않는단다. 다시 확인해주렴")
         return 1
     selectItem = Item[num]
@@ -65,7 +66,7 @@ def BuyAttackItem(player, num): #return 1 (err, again) || return 0 (stop)
 def BuyHealItem(player, num): #return 1 (err, again) || return 0 (stop)
     num-=1
     Item = getHealItemList()
-    if num <= 0 or num > len(Item):
+    if num < 0 or num > len(Item):
         print("해당 번호의 아이템은 판매하지 않는단다. 다시 확인해주렴")
         return 1
     selectItem = Item[num]

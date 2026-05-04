@@ -4,7 +4,9 @@ from random import randint
 
 def PlayerMove(player, enemy, turn):
     while True:
-        print(turn, "턴|| 1. 공격 |2. 아이템사용|3. 도망(구현안함)")
+        print(turn,"턴|| 1. 공격 |2. 아이템사용|3. 도망(구현안함)")
+        print("적 HP: ", enemy.hp, "|", "적 방어력: ", enemy.defen,"|",player.name," 의 HP: ", player.hp,"/",player.maxhp ,"|", player.name,"의 공격: ", player.atk+player.weaponDam)
+        print("-"*50)
         num = GetNumber(1, 3)
         if num == 1:
             print(player.name, "의 공격!")
@@ -24,7 +26,7 @@ def PlayerMove(player, enemy, turn):
                     if use_num == end+1:
                         break
                     else:
-                        player.UseHealItem(use_num)
+                        player.UseHealItem(player.FindHealItem(use_num))
                         turn+=1
                         return turn
                 elif item_num == 2: #공격아이템 이용
@@ -36,7 +38,7 @@ def PlayerMove(player, enemy, turn):
                     if use_num == end+1:
                         break
                     else:
-                        enemy.GetAttacked(player.UseAttackItem(use_num))
+                        enemy.GetAttacked(player.UseAttackItem(player.FindAttackItem(use_num)))
                         turn+=1
                         return turn
         else:
@@ -46,7 +48,8 @@ def PlayerMove(player, enemy, turn):
 def EnemyMove(player, enemy):
     move_num = randint(1, 100)
     if move_num > 20:
-        player.GetAttacked(enemy.DoAttacked())
+        hp, total = player.GetAttacked(enemy.DoAttack())
+        print(player.name, "의 남은 hp: ", hp)
         return 0
     else:
         enemy.DoNothing()

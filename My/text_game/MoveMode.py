@@ -3,6 +3,7 @@ from FinalScore import FinalScore
 from Encounter import *
 def Move(player, mList): #1: CampEncounter, 2: NoramlEnemy, 3: MiddleBoss, 4: FinalBoss 0: End
     for i in mList:
+        print("-" * 50)
         print("층수: ", player.floor,"층")
         match i:
             case 1:
@@ -17,10 +18,11 @@ def Move(player, mList): #1: CampEncounter, 2: NoramlEnemy, 3: MiddleBoss, 4: Fi
                 print("Boss를 물리쳤습니다.")
                 print("축하합니다!")
                 return 0
+        print("-" * 50)
 
 def TestMode(player): #modenum = 1 #잡캠중캠최
     #NoramlEnemy -> NormalEnemy -> CampEncounter -> MiddleBoss -> CampEncounter -> FinalBoss -> END
-    mlist = [1, 1, 2, 3, 2, 4, 0]
+    mlist = [2, 2, 1, 3, 1, 4, 0]
     Move(player, mlist)
     return FinalScore(player)
 

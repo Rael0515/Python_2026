@@ -12,21 +12,31 @@ class Character:
         self.floor = 1
         self.money = 1000
         self.weaponName = "청동검"
-        self.weaponDam = 5
+        self.weaponDam = 20
         self.attackItem = [] #[[name, description, count, power]]
         self.healItem = [] #[[name, description, count, power]]
 
 ##내부 동작들
     def GetEXP(self, exp): #no return
+        print( self.name , "은(는)", exp, "만큼의 경험치를 얻었다!")
         self.exp += exp
+        before = self.level
         while (self.exp - 100) >= 0 :
             self.level += 1
             self.maxhp += 50
             self.atk += 10
             self.defen += 5
             self.exp -= 100
+            self.GetMoney(1000)
+        print(self.name, "은",  before, " -> ", self.level, "으로 레벨업 했다!")
+        print("플레이어 Level: ",self.level)
+        print("최대 HP: ", self.maxhp, )
+        print("플레이어 현재 경험치: ", self.exp)
         #return self.level, self.exp, self.maxhp, self.atk, self.defen
-        
+    def GetMoney(self, money):
+        self.money += money
+        print("플레이어 현재 돈: ", self.money)
+
     def ChangeWeapon(self, name, dam): #no return
         self.weaponName = name
         self.weaponDam = dam
@@ -34,72 +44,74 @@ class Character:
     def GetHealItem(self, item_name, description, num, power): #no return ##수정요함!
         is_get = 0
         totalcount = 0
-        for item in self.healItem:
+        for item in self.healItem:#[[name, description, count, power]]
             if item[0] == item_name:
-                item[1]+=num
-                totalcount = item[1]
+                item[2]+=num
+                totalcount = item[2]
                 is_get = 1
                 break
 
         if is_get == 0:
             self.healItem.append([item_name, description, num, power])
+            totalcount = 1
             is_get = 1
 
         if is_get == 1:
-            print(item_name,"을", num,"개 획득했다!")
-            print("현재 ", item_name,"은(는) ", totalcount,"개 입니다.")
+            print(item_name,"을(를)", num,"개 획득했다!")
+            print("현재", item_name+"은(는)", totalcount, "개 입니다.")
 
     def GetAttackItem(self, item_name, description, num, power): #no return
         is_get = 0
         totalcount = 0
-        for item in self.attackItem:
+        for item in self.attackItem:#[[name, description, count, power]]
             if item[0] == item_name:
-                item[1]+=num
-                totalcount = item[1]
+                item[2]+=num
+                totalcount = item[2]
                 is_get = 1
                 break
 
         if is_get == 0:
             self.attackItem.append([item_name, description, num, power])
+            totalcount = 1
             is_get = 1
 
         if is_get == 1:
-            print(item_name,"을", num,"개 획득했다!")
-            print("현재 ", item_name,"은(는) ", totalcount,"개 입니다.")
+            print(item_name,"을(를)", num,"개 획득했다!")
+            print("현재", item_name,"은(는)", totalcount,"개 입니다.")
 
     def UseHealItem(self, item_name): #return 0 || return -1 (noItem)
         power = 0
-        for item in self.healItem:
+        for item in self.healItem:#[[name, description, count, power]]
             if item[0] == item_name:
-                item[1] -= 1
-                power = item[2]
+                item[2] -= 1
+                power = item[3]
                 self.hp += power
                 if self.hp > self.maxhp:
                     self.hp = self.maxhp
                 
-                print(item[0], "을 사용했다!")
-                print(self.name, "은(는) ",item[2],"만큼 회복했다!")
+                print(self.name,"은(는)",item[0],"을(를) 사용했다!")
+                print(self.name,"은(는)",item[3],"만큼 회복했다!")
 
                 if item[1] <= 0:
                     self.healItem.remove(item)
-                    print("마지막 ", item[0], "을(를) 사용했다!")
+                    print("마지막", item[0],"을(를) 사용했다!")
                     return 0
-                print("현재 ", item[0],"은 ", item[1], "개 남았다.")
+                print("현재", item[0],"은(는)", item[2],"개 남았다.")
                 return 0
         return -1
     def UseAttackItem(self, item_name): #return power || return -1 (noItem)
         power = 0
-        for item in self.attackItem:
+        for item in self.attackItem:#[[name, description, count, power]]
             if item[0] == item_name:
-                item[1] -= 1
-                power = item[2]
-                print(item[0], "을 사용했다!")
+                item[2] -= 1
+                power = item[3]
+                print(self.name,"은(는)",item[0],"을(를) 사용했다!")
 
-                if item[1] <= 0:
+                if item[2] <= 0:
                     self.attackItem.remove(item)
-                    print("마지막 ", item[0], "을(를) 사용했다!")
+                    print("마지막", item[0],"을(를) 사용했다!")
                     return power
-                print("현재 ", item[0],"은 ", item[1], "개 남았다.")
+                print("현재", item[0],"은(는)", item[2],"개 남았다.")
                 return power
         return -1
 
@@ -120,32 +132,40 @@ class Character:
     
 ##실제 동작들
 
-    def GetAttacked(self, dam): #return 0 (no damage) || return self.hp, total (get damage)
+    def GetAttacked(self, dam): #return self.hp, 0 (no damage) || return self.hp, total (get damage)
+        print(self.name,"은(는)", dam, "만큼의 데미지를 입었다!")
         total = dam - self.defen
         if total <= 0:
-            return 0
+            return self.hp, 0
         self.hp -= total
         if self.hp <= 0:
             self.hp = 0
         while self.hp == 0:
             if self.ShowHealItem() == -1:
-                self.Died(self)
+                self.Died()
             else:
-                num = int(input(">> "))
-                if num > 0 and num < len(self.healItem)+1:
-                    self.UseHealItem()
-                else:
-                    print("존재하지 않는 아이템입니다.")
-                    print("다시 입력해주세요.")
+                print(self.name, "은(는) 체력이 다할것 같다!")
+                print("사용할 아이템을 입력해주세요.")
+                while True:
+                    num = int(input(">> "))
+                    name = self.FindHealItem(num)
+                    for item in self.healItem:
+                        if item[0] == name:
+                            self.UseHealItem(name)
+                            break
+                        else:
+                            print("존재하지 않는 아이템입니다.")
+                            print("다시 입력해주세요.")
+          
         return self.hp, total
     
-    def DoWAttack(self): #return total
+    def DoAttack(self): #return total
         total = self.atk + self.weaponDam
         return total
     
     def Died(self): #exit(0)
         from FinalScore import FinalScore
-        print("캐릭터의 체력이 0이 되었습니다.")
+        print(self.name,"의 체력이 0이 되었습니다.")
         print("게임을 종료합니다.")
         print("최종점수: ", FinalScore(self))
         exit(0)
@@ -158,14 +178,16 @@ class Character:
             return -1
         else:
             index = 1
-            print("---------------------------------------------------")
+            print("-"*50, end="")
             for item in self.healItem: #[[name, description, count, power]]
+                print("")
                 print(index, ". ", item[0])
                 print("설명: ", item[1])
                 print("회복량: ", item[3])
                 print("아이탬 개수: ", item[2])    
                 index+=1
-                print("---------------------------------------------------")
+                print("-"*30, end="")
+            print("-"*20)
         return 0
     
     def ShowAttackItem(self): #return -1(err) || return 0(normal)
@@ -174,12 +196,18 @@ class Character:
             return -1
         else:
             index = 1
-            print("---------------------------------------------------")
+            print("-"*50, end="")
             for item in self.attackItem: #[[name, description, count, power]]
+                print("")
                 print(index, ". ", item[0])
                 print("설명: ", item[1])
                 print("데미지: ", item[3])
                 print("아이탬 개수: ", item[2])    
                 index+=1
-                print("---------------------------------------------------")
+                print("-"*30, end="")
+            print("-"*20)
         return 0
+    def FindHealItem(self, num): #return itemname
+        return self.healItem[num - 1][0]
+    def FindAttackItem(self, num): #return itemname
+        return self.attackItem[num -1][0]
