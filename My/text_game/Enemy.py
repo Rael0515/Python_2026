@@ -37,7 +37,8 @@ class Enemy:
         print(self.name,"은(는) 쓰러졌다!")
         return self.money, self.exp
 
-#자식클래스
+##자식클래스
+#기본 몬스터
 class NormalEnemy(Enemy): #일반몬스터
     def __init__(self):
         super().__init__("일반몬스터", 100, 10, 10, 100, 300) #name, (max, now)hp, atk, defense, money, exp
@@ -47,3 +48,7 @@ class MiddleBoss(Enemy): #중간보스
 class FinalBoss(Enemy): #최종보스
     def __init__(self):
         super().__init__("최종보스", 800, 190, 140, 3000, 3000) #name, (max, now)hp, atk, defense, money, exp
+#특수 몬스터
+class EXPEnemy(Enemy): #경험치 배수 몬스터
+    def __init__(self):
+        super().__init___("경험치 기부천사", )

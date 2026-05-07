@@ -91,7 +91,3 @@ def CampEncounter(player): #return 0 (normal)
             print("y 혹은 n을 입력해주세요.")
 
 
-
-
-
-
