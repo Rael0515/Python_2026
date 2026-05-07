@@ -24,7 +24,7 @@ jobs:
       - name: 맥용 실행 파일 생성
         run: |
           # --name 뒤의 "RedTextGame"은 친구가 보게 될 파일 이름입니다. 원하는 대로 바꾸세요!
-          pyinstaller --onefile --name "RedTextGame" My/text_game/main.py
+          pyinstaller --onefile --name "Text-Game" My/text_game/main.py
 
       - name: 완성된 파일을 결과물로 저장
         uses: actions/upload-artifact@v4
